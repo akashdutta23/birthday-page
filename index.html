@@ -374,6 +374,135 @@
       text-align: left;
     }
 
+    /* ===== Birthday Arcade ===== */
+    .arcade {
+      margin: 3em auto;
+      max-width: 720px;
+      padding: 2.2em 1.8em;
+      background: rgba(255, 247, 250, 0.95);
+      border-radius: 24px;
+      box-shadow: 0 8px 20px rgba(194, 24, 91, 0.18);
+    }
+
+    .arcade h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 2em;
+      margin: 0 0 0.2em;
+      color: var(--berry);
+    }
+
+    .arcade-sub {
+      margin: 0 0 1.4em;
+      color: var(--deep-rose);
+      font-weight: 500;
+    }
+
+    .game-tabs {
+      display: flex;
+      gap: 0.6em;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.5em;
+    }
+
+    .game-tab {
+      padding: 0.6em 1.3em;
+      border-radius: 30px;
+      border: 2px solid var(--rose);
+      background: #fff;
+      color: var(--deep-rose);
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    }
+    .game-tab:hover { transform: translateY(-2px); }
+    .game-tab.active { background: var(--rose); color: #fff; }
+
+    .game-panel { display: none; }
+    .game-panel.active { display: block; }
+    .game-panel > p { font-size: 1.05em; line-height: 1.5; }
+
+    .game-stats { font-weight: 700; color: var(--deep-rose); margin: 0.8em 0; font-size: 1.1em; }
+    .game-msg { min-height: 1.6em; font-weight: 700; color: var(--berry); margin: 0.8em 0 0; font-size: 1.05em; }
+
+    /* Lights Out */
+    .lights { display: flex; gap: 0.8em; justify-content: center; margin: 1.2em 0; }
+    .light {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: #ecd9e0;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
+      transition: background 0.1s ease, box-shadow 0.1s ease;
+    }
+    .light.on { background: #e53935; box-shadow: 0 0 16px rgba(229, 57, 53, 0.8); }
+
+    .reaction-zone {
+      margin-top: 0.5em;
+      padding: 2.2em 1em;
+      border-radius: 16px;
+      background: var(--baby-pink);
+      border: 2px dashed var(--rose);
+      font-weight: 700;
+      font-size: 1.15em;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    /* Whack-a-Titan */
+    .titan-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8em;
+      max-width: 360px;
+      margin: 1em auto;
+    }
+    .hole {
+      aspect-ratio: 1;
+      background: var(--blush);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4em;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      box-shadow: inset 0 3px 8px rgba(194, 24, 91, 0.2);
+      touch-action: manipulation;
+    }
+
+    /* Snack Catch */
+    .catch-area {
+      position: relative;
+      height: 340px;
+      background: linear-gradient(#ffeef4, var(--baby-pink));
+      border: 2px solid var(--blush);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 1em;
+      touch-action: none;
+      cursor: none;
+    }
+    #dog {
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      font-size: 2.8em;
+      transform: translateX(-50%);
+      user-select: none;
+      pointer-events: none;
+    }
+    .falling {
+      position: absolute;
+      font-size: 1.9em;
+      user-select: none;
+      pointer-events: none;
+    }
+
     /* ===== Reduced motion ===== */
     @media (prefers-reduced-motion: reduce) {
       .message, .balloon, h1, li { animation: none; }
@@ -386,6 +515,8 @@
       .polaroid img { max-width: 100%; }
       .message { padding: 1.8em 1.4em; font-size: 1.1em; margin: 2em 1em; }
       .wishes { padding: 1.4em; margin: 2em 1em; }
+      .arcade { padding: 1.4em 1em; margin: 2em 1em; }
+      .catch-area { height: 280px; }
       .music { margin: 2em 1em 3em; padding: 1em; }
     }
   </style>
@@ -423,6 +554,50 @@
     <span class="balloon">🎈</span>
   </div>
   <p class="balloon-hint">psst… pop the balloons! 👆</p>
+
+  <div class="arcade">
+    <h2>🎮 The Birthday Arcade</h2>
+    <p class="arcade-sub">Three games. Zero prizes. Infinite glory.</p>
+
+    <div class="game-tabs">
+      <button class="game-tab active" data-game="f1">🏎️ Lights Out</button>
+      <button class="game-tab" data-game="titan">⚔️ Whack-a-Titan</button>
+      <button class="game-tab" data-game="dog">🐶 Snack Catch</button>
+    </div>
+
+    <div class="game-panel active" id="game-f1">
+      <p>Five red lights. Wait for ALL of them to go out, then tap the track as fast as Max launches off the line. Tap early and the stewards WILL be informed.</p>
+      <div class="lights">
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+      </div>
+      <div class="reaction-zone" id="reactionZone">Press “Start Race” to begin 🏁</div>
+      <button class="submit" id="f1Start" style="margin-top: 1.2em;">Start Race</button>
+      <div class="game-msg" id="f1Msg"></div>
+      <div class="game-stats" id="f1Best"></div>
+    </div>
+
+    <div class="game-panel" id="game-titan">
+      <p>Titans have breached Wall Rose (the pink one, obviously). Whack every titan you see — but do NOT bonk the golden retriever. He's just visiting.</p>
+      <div class="game-stats"><span id="titanScore">Score: 0</span> &nbsp;·&nbsp; <span id="titanTimer">Time: 20s</span></div>
+      <div class="titan-grid" id="titanGrid"></div>
+      <button class="submit" id="titanStart" style="margin-top: 1.2em;">Tatakae! (Start)</button>
+      <div class="game-msg" id="titanMsg"></div>
+    </div>
+
+    <div class="game-panel" id="game-dog">
+      <p>You are the golden retriever. Slide your mouse or finger across the field to catch falling treats. Broccoli does NOT count as a treat. It never did.</p>
+      <div class="game-stats"><span id="dogScore">Score: 0</span> &nbsp;·&nbsp; <span id="dogTimer">Time: 25s</span></div>
+      <div class="catch-area" id="catchArea">
+        <span id="dog">🐶</span>
+      </div>
+      <button class="submit" id="dogStart" style="margin-top: 1.2em;">Release the Snacks</button>
+      <div class="game-msg" id="dogMsg"></div>
+    </div>
+  </div>
 
   <div class="wishes">
     <h2>Leave a Birthday Wish! 🎉</h2>
@@ -589,6 +764,236 @@
     document.getElementById("submitWish").addEventListener("click", addWish);
     wishInput.addEventListener("keydown", e => {
       if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); addWish(); }
+    });
+
+    /* ===== Arcade: tab switching ===== */
+    document.querySelectorAll(".game-tab").forEach(tab => {
+      tab.addEventListener("click", function () {
+        document.querySelectorAll(".game-tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".game-panel").forEach(p => p.classList.remove("active"));
+        this.classList.add("active");
+        document.getElementById("game-" + this.dataset.game).classList.add("active");
+      });
+    });
+
+    /* ===== Game 1: Lights Out (F1 reaction test) ===== */
+    const lightEls = document.querySelectorAll(".light");
+    const reactionZone = document.getElementById("reactionZone");
+    const f1Msg = document.getElementById("f1Msg");
+    const f1BestEl = document.getElementById("f1Best");
+    let f1State = "idle";
+    let f1Timeouts = [];
+    let goTime = 0;
+    let f1Best = null;
+
+    function f1Reset() {
+      f1Timeouts.forEach(clearTimeout);
+      f1Timeouts = [];
+      lightEls.forEach(l => l.classList.remove("on"));
+    }
+
+    document.getElementById("f1Start").addEventListener("click", function () {
+      f1Reset();
+      f1State = "sequence";
+      f1Msg.textContent = "";
+      reactionZone.textContent = "Watch the lights… 👀";
+      lightEls.forEach((light, i) => {
+        f1Timeouts.push(setTimeout(() => light.classList.add("on"), 700 * (i + 1)));
+      });
+      const delay = 700 * 5 + 1000 + Math.random() * 2200;
+      f1Timeouts.push(setTimeout(() => {
+        lightEls.forEach(l => l.classList.remove("on"));
+        f1State = "ready";
+        goTime = performance.now();
+        reactionZone.textContent = "GO GO GO! TAP NOW! 🏁";
+      }, delay));
+    });
+
+    reactionZone.addEventListener("pointerdown", function () {
+      if (f1State === "sequence") {
+        f1Reset();
+        f1State = "idle";
+        reactionZone.textContent = "Press “Start Race” to try again 🏁";
+        f1Msg.textContent = "🚨 JUMP START! Five-second penalty. Box box. 🙃";
+      } else if (f1State === "ready") {
+        const time = Math.round(performance.now() - goTime);
+        f1State = "idle";
+        reactionZone.textContent = time + " ms!";
+        let verdict;
+        if (time < 230) verdict = "Verstappen-coded. Simply lovely. 🏆";
+        else if (time < 350) verdict = "Podium pace! Pink champagne for you 🍾";
+        else if (time < 500) verdict = "Solid midfield. Points finish. 👍";
+        else verdict = "…Were you petting a dog mid-race? 😅";
+        f1Msg.textContent = verdict;
+        if (f1Best === null || time < f1Best) {
+          f1Best = time;
+          f1BestEl.textContent = "Personal best: " + f1Best + " ms 🏅";
+          launchConfetti();
+        }
+      }
+    });
+
+    /* ===== Game 2: Whack-a-Titan ===== */
+    const titanGrid = document.getElementById("titanGrid");
+    const titanScoreEl = document.getElementById("titanScore");
+    const titanTimerEl = document.getElementById("titanTimer");
+    const titanMsg = document.getElementById("titanMsg");
+    let titanScore = 0, titanTimeLeft = 20, titanPlaying = false;
+    let titanCountdown = null, titanPopTimer = null;
+
+    for (let i = 0; i < 9; i++) {
+      const hole = document.createElement("div");
+      hole.className = "hole";
+      hole.addEventListener("pointerdown", function () {
+        if (!titanPlaying || !this.textContent) return;
+        if (this.textContent === "👹") {
+          titanScore++;
+          this.textContent = "💥";
+          titanMsg.textContent = "Tatakae! ⚔️";
+        } else if (this.textContent === "🐶") {
+          titanScore = Math.max(0, titanScore - 2);
+          this.textContent = "💔";
+          titanMsg.textContent = "NOT THE DOG!! He trusted you. 😭 (−2)";
+        }
+        titanScoreEl.textContent = "Score: " + titanScore;
+        const h = this;
+        setTimeout(() => { if (titanPlaying) h.textContent = ""; }, 250);
+      });
+      titanGrid.appendChild(hole);
+    }
+
+    function titanPop() {
+      if (!titanPlaying) return;
+      const holes = titanGrid.children;
+      const hole = holes[Math.floor(Math.random() * holes.length)];
+      if (hole.textContent) {
+        titanPopTimer = setTimeout(titanPop, 120);
+        return;
+      }
+      hole.textContent = Math.random() < 0.2 ? "🐶" : "👹";
+      setTimeout(() => {
+        if (hole.textContent === "👹" || hole.textContent === "🐶") hole.textContent = "";
+      }, 800);
+      titanPopTimer = setTimeout(titanPop, 380 + Math.random() * 400);
+    }
+
+    document.getElementById("titanStart").addEventListener("click", function () {
+      if (titanPlaying) return;
+      titanPlaying = true;
+      titanScore = 0;
+      titanTimeLeft = 20;
+      titanMsg.textContent = "";
+      titanScoreEl.textContent = "Score: 0";
+      titanTimerEl.textContent = "Time: 20s";
+      titanPop();
+      titanCountdown = setInterval(() => {
+        titanTimeLeft--;
+        titanTimerEl.textContent = "Time: " + titanTimeLeft + "s";
+        if (titanTimeLeft <= 0) {
+          clearInterval(titanCountdown);
+          clearTimeout(titanPopTimer);
+          titanPlaying = false;
+          Array.from(titanGrid.children).forEach(h => h.textContent = "");
+          let verdict;
+          if (titanScore >= 18) verdict = "Humanity's strongest! Levi is mildly impressed. 🗡️";
+          else if (titanScore >= 10) verdict = "Scout Regiment material. Eren nods silently. ⚔️";
+          else verdict = "The titans ate the cake. Avenge it next round. 🎂";
+          titanMsg.textContent = "Final score: " + titanScore + " — " + verdict;
+          launchConfetti();
+        }
+      }, 1000);
+    });
+
+    /* ===== Game 3: Golden Retriever Snack Catch ===== */
+    const catchArea = document.getElementById("catchArea");
+    const dogEl = document.getElementById("dog");
+    const dogScoreEl = document.getElementById("dogScore");
+    const dogTimerEl = document.getElementById("dogTimer");
+    const dogMsg = document.getElementById("dogMsg");
+    let dogPlaying = false, dogScore = 0, dogTimeLeft = 25;
+    let dogX = 150, fallingItems = [];
+    let dogSpawner = null, dogCountdown = null, dogRaf = null;
+
+    function moveDog(clientX) {
+      const rect = catchArea.getBoundingClientRect();
+      dogX = Math.min(Math.max(clientX - rect.left, 25), rect.width - 25);
+      dogEl.style.left = dogX + "px";
+    }
+    catchArea.addEventListener("pointermove", e => moveDog(e.clientX));
+    catchArea.addEventListener("touchmove", e => {
+      e.preventDefault();
+      moveDog(e.touches[0].clientX);
+    }, { passive: false });
+
+    function spawnItem() {
+      const treats = ["🧁", "🦴", "🎾", "🍪"];
+      const isBroccoli = Math.random() < 0.22;
+      const item = document.createElement("span");
+      item.className = "falling";
+      item.textContent = isBroccoli ? "🥦" : treats[Math.floor(Math.random() * treats.length)];
+      const rect = catchArea.getBoundingClientRect();
+      const x = 20 + Math.random() * (rect.width - 40);
+      item.style.left = x + "px";
+      item.style.top = "-30px";
+      catchArea.appendChild(item);
+      fallingItems.push({ el: item, x: x, y: -30, speed: 2 + Math.random() * 2.2 });
+    }
+
+    function dogLoop() {
+      if (!dogPlaying) return;
+      const areaH = catchArea.getBoundingClientRect().height;
+      for (let i = fallingItems.length - 1; i >= 0; i--) {
+        const it = fallingItems[i];
+        it.y += it.speed;
+        it.el.style.top = it.y + "px";
+        if (it.y > areaH - 75 && Math.abs(it.x - dogX) < 45) {
+          if (it.el.textContent === "🥦") {
+            dogScore = Math.max(0, dogScore - 1);
+            dogMsg.textContent = "Broccoli?! In THIS economy? 🤢 (−1)";
+          } else {
+            dogScore++;
+            dogMsg.textContent = "Nom. 😋";
+          }
+          dogScoreEl.textContent = "Score: " + dogScore;
+          it.el.remove();
+          fallingItems.splice(i, 1);
+        } else if (it.y > areaH) {
+          it.el.remove();
+          fallingItems.splice(i, 1);
+        }
+      }
+      dogRaf = requestAnimationFrame(dogLoop);
+    }
+
+    document.getElementById("dogStart").addEventListener("click", function () {
+      if (dogPlaying) return;
+      dogPlaying = true;
+      dogScore = 0;
+      dogTimeLeft = 25;
+      dogMsg.textContent = "";
+      dogScoreEl.textContent = "Score: 0";
+      dogTimerEl.textContent = "Time: 25s";
+      dogEl.style.left = dogX + "px";
+      dogSpawner = setInterval(spawnItem, 650);
+      dogLoop();
+      dogCountdown = setInterval(() => {
+        dogTimeLeft--;
+        dogTimerEl.textContent = "Time: " + dogTimeLeft + "s";
+        if (dogTimeLeft <= 0) {
+          clearInterval(dogCountdown);
+          clearInterval(dogSpawner);
+          cancelAnimationFrame(dogRaf);
+          dogPlaying = false;
+          fallingItems.forEach(it => it.el.remove());
+          fallingItems = [];
+          let verdict;
+          if (dogScore >= 18) verdict = "GOODEST girl. 14/10. Would catch again. 🐾";
+          else if (dogScore >= 10) verdict = "Respectable snacking. Tail wag earned. 🐕";
+          else verdict = "The broccoli won. We don't talk about it. 😔";
+          dogMsg.textContent = "Final score: " + dogScore + " — " + verdict;
+          launchConfetti();
+        }
+      }, 1000);
     });
 
     window.onload = () => {
